@@ -21,14 +21,14 @@ func SetupCloudflare(token string) cloudflare.API {
 
 	cf, err := cloudflare.NewWithAPIToken(token)
 	if err != nil {
-		log.Fatalf("Error while creating Cloudflare client: %s\n", err)
+		log.Fatalf("Error while creating Cloudflare client: %v\n", err)
 	}
 
 	ctx := context.Background()
 
 	resp, err := cf.VerifyAPIToken(ctx)
 	if err != nil {
-		log.Fatalf("Error while verifying API token: %s\n", err)
+		log.Fatalf("Error while verifying API token: %v\n", err)
 	} else if resp.Status != "active" {
 		log.Fatalf("Error while verifying API token: token is %s\n", resp.Status)
 	}
@@ -184,10 +184,10 @@ func UpdateRecord(cf *cloudflare.API, zone *cloudflare.ResourceContainer, record
 
 func main() {
 	// Parse CLI arguments
-	hostnameFlag := flag.String("hostname", "", "Hostname to refresh")
-	domainFlag := flag.String("domain", "", "Domain to refresh")
-	proxyFlag := flag.Bool("proxy", false, "Whether the records should be proxied (default false)")
-	token := flag.String("token", os.Getenv("CLOUDFLARE_API_TOKEN"), "Cloudflare API token")
+	hostnameFlag := flag.String("hostname", "", "Hostname to refresh (default: machine hostname)")
+	domainFlag := flag.String("domain", "", "Domain to refresh (default: derived from value of -hostname)")
+	proxyFlag := flag.Bool("proxy", false, "Whether the records should be proxied (default: false)")
+	token := flag.String("token", os.Getenv("CLOUDFLARE_API_TOKEN"), "Cloudflare API token (can also be passed via CLOUDFLARE_API_TOKEN variable)")
 	flag.Parse()
 
 	// Setup cloudflare API
