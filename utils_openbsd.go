@@ -6,7 +6,12 @@ import (
 )
 
 func Init() {
-	err := unix.Pledge("stdio rpath inet dns", "")
+	err := unix.Unveil("/etc/ssl/cert.pem", "r")
+	if err != nil {
+		log.Fatalf("Failed to initialize unveil: %v\n", err)
+	}
+
+	err = unix.Pledge("stdio rpath inet dns", "")
 	if err != nil {
 		log.Fatalf("Failed to initialize pledge: %v\n", err)
 	}
