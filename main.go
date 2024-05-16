@@ -183,6 +183,8 @@ func UpdateRecord(cf *cloudflare.API, zone *cloudflare.ResourceContainer, record
 }
 
 func main() {
+	Init()
+
 	// Parse CLI arguments
 	hostnameFlag := flag.String("hostname", "", "Hostname to refresh (default: machine hostname)")
 	domainFlag := flag.String("domain", "", "Domain to refresh (default: derived from value of -hostname)")
