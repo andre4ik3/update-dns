@@ -1,4 +1,4 @@
-module update-dns
+module github.com/andre4ik3/update-dns
 
 go 1.22
 
